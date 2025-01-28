@@ -1,5 +1,6 @@
 package com.sobalevskaya.fabtrade_backend.services;
 
+import com.sobalevskaya.fabtrade_backend.dto.VerificationDto;
 import com.sobalevskaya.fabtrade_backend.entities.User;
 import com.sobalevskaya.fabtrade_backend.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,13 @@ public class UserService {
 
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    public void verifyUser(User user, VerificationDto verificationDto) {
+        user.setUnp(verificationDto.getUnp());
+        user.setName(verificationDto.getName());
+        user.setVerified(true);
+        userRepository.save(user);
     }
 
 }

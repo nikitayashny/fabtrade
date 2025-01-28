@@ -19,5 +19,13 @@ public class User {
 
     private String profilePicture;
     private String provider;
+
+    // full verification
+    @Column(columnDefinition = "boolean default false")
+    private boolean verified;
+
+    private String unp;
+    private String name;
+
 }
 

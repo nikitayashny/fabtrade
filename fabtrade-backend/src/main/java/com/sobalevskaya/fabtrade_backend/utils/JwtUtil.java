@@ -54,4 +54,12 @@ public class JwtUtil {
         }
     }
 
+    public User getUserFromToken(String token) {
+        Algorithm algorithm = Algorithm.HMAC256(secretKey);
+        JWTVerifier verifier = JWT.require(algorithm)
+                .build();
+        DecodedJWT decoded = verifier.verify(token);
+        String email = decoded.getClaim("email").asString();
+        return userService.findByEmail(email).orElseThrow();
+    }
 }
