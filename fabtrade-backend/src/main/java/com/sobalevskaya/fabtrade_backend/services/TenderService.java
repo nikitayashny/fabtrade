@@ -34,4 +34,10 @@ public class TenderService {
         tender.setStatus(statusRepository.findById(1L).orElseThrow());
         tenderRepository.save(tender);
     }
+
+    public boolean isUsersTender(Long id, User user) {
+        Tender tender = tenderRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Tender not found"));
+        return tender.getCreator() == user;
+    }
 }
