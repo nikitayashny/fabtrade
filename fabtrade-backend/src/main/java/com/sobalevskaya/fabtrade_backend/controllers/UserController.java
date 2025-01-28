@@ -1,6 +1,7 @@
 package com.sobalevskaya.fabtrade_backend.controllers;
 
 import com.sobalevskaya.fabtrade_backend.dto.VerificationDto;
+import com.sobalevskaya.fabtrade_backend.entities.Category;
 import com.sobalevskaya.fabtrade_backend.entities.User;
 import com.sobalevskaya.fabtrade_backend.services.UserService;
 import com.sobalevskaya.fabtrade_backend.utils.JwtUtil;
@@ -17,7 +18,7 @@ public class UserController {
     private final JwtUtil jwtUtil;
     private final UserService userService;
 
-    @PostMapping
+    @PostMapping("/verify")
     public ResponseEntity<?> verifyUser(@RequestBody VerificationDto verificationDto,
                                         @RequestHeader(HttpHeaders.AUTHORIZATION) String authorization) {
         try {
