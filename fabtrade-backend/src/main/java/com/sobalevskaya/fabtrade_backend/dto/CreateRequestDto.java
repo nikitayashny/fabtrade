@@ -9,7 +9,6 @@ public class CreateRequestDto {
     private Long price;
     private Long period;
     private String document;
-    private String image;
     private Long minSupplyDate;
     private Long maxSupplyDate;
 
