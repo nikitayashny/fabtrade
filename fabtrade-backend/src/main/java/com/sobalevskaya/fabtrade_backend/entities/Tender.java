@@ -39,6 +39,9 @@ public class Tender {
     @JoinColumn(name = "status_id")
     private Status status;
 
+    @Column(columnDefinition = "boolean default false")
+    private boolean sign;
+
     private LocalDateTime dateOfCreated;
 
     @PrePersist

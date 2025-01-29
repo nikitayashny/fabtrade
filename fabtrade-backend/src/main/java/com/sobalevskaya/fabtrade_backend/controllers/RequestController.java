@@ -67,8 +67,11 @@ public class RequestController {
             User user = jwtUtil.getUserFromToken(token);
             String imageUrl = imageService.uploadImage(image);
             String documentUrl = documentService.uploadPdf(document);
-            requestService.addRequest(createRequestDto, user, imageUrl, documentUrl);
-            return ResponseEntity.ok().build();
+            if (requestService.addRequest(createRequestDto, user, imageUrl, documentUrl)) {
+                return ResponseEntity.ok().build();
+            } else {
+                return ResponseEntity.badRequest().body("You have already sent request");
+            }
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(e.getMessage());
         }

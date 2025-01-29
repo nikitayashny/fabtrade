@@ -32,7 +32,12 @@ public class RequestService {
         return request.getRequester() == user;
     }
 
-    public void addRequest(CreateRequestDto createRequestDto, User user, String imageUrl, String documentUrl) {
+    public boolean addRequest(CreateRequestDto createRequestDto, User user, String imageUrl, String documentUrl) {
+        List<Request> requests= requestRepository.findAllByTenderId(createRequestDto.getTenderId());
+        for (Request request: requests) {
+            if (request.getRequester() == user)
+                return false;
+        }
         Request request = new Request();
         request.setRequester(user);
         request.setTender(tenderRepository.findById(createRequestDto.getTenderId()).orElseThrow());
@@ -44,6 +49,7 @@ public class RequestService {
         request.setMaxSupplyDate(createRequestDto.getMaxSupplyDate());
         request.setSign(createRequestDto.isSign());
         requestRepository.save(request);
+        return true;
     }
 
 }
