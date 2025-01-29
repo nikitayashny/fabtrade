@@ -2,6 +2,7 @@ package com.sobalevskaya.fabtrade_backend.controllers;
 
 import com.sobalevskaya.fabtrade_backend.dto.CreateRequestDto;
 import com.sobalevskaya.fabtrade_backend.entities.User;
+import com.sobalevskaya.fabtrade_backend.services.DocumentService;
 import com.sobalevskaya.fabtrade_backend.services.ImageService;
 import com.sobalevskaya.fabtrade_backend.services.RequestService;
 import com.sobalevskaya.fabtrade_backend.services.TenderService;
@@ -22,6 +23,7 @@ public class RequestController {
     private final TenderService tenderService;
     private final RequestService requestService;
     private final ImageService imageService;
+    private final DocumentService documentService;
 
     @GetMapping("/tender/{id}")
     public ResponseEntity<?> getTenderRequests(@PathVariable Long id,
@@ -58,12 +60,14 @@ public class RequestController {
     @PostMapping("")
     public ResponseEntity<?> addRequest(@ModelAttribute CreateRequestDto createRequestDto,
                                         @RequestParam("image") MultipartFile image,
+                                        @RequestParam("document") MultipartFile document,
                                         @RequestHeader(HttpHeaders.AUTHORIZATION) String authorization) {
         try {
             String token = authorization.substring(7);
             User user = jwtUtil.getUserFromToken(token);
             String imageUrl = imageService.uploadImage(image);
-            requestService.addRequest(createRequestDto, user, imageUrl);
+            String documentUrl = documentService.uploadPdf(document);
+            requestService.addRequest(createRequestDto, user, imageUrl, documentUrl);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(e.getMessage());

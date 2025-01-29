@@ -32,16 +32,17 @@ public class RequestService {
         return request.getRequester() == user;
     }
 
-    public void addRequest(CreateRequestDto createRequestDto, User user, String imageUrl) {
+    public void addRequest(CreateRequestDto createRequestDto, User user, String imageUrl, String documentUrl) {
         Request request = new Request();
         request.setRequester(user);
         request.setTender(tenderRepository.findById(createRequestDto.getTenderId()).orElseThrow());
         request.setPrice(createRequestDto.getPrice());
         request.setPeriod(createRequestDto.getPeriod());
-        request.setDocument(createRequestDto.getDocument());
+        request.setDocument(documentUrl);
         request.setImage(imageUrl);
         request.setMinSupplyDate(createRequestDto.getMinSupplyDate());
         request.setMaxSupplyDate(createRequestDto.getMaxSupplyDate());
+        request.setSign(createRequestDto.isSign());
         requestRepository.save(request);
     }
 

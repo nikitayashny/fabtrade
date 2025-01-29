@@ -30,5 +30,6 @@ public class Request {
     private String image;
     private Long minSupplyDate;
     private Long maxSupplyDate;
+    private boolean sign;
 
 }
