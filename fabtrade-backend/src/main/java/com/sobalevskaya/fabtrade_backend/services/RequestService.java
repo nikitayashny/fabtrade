@@ -2,8 +2,10 @@ package com.sobalevskaya.fabtrade_backend.services;
 
 import com.sobalevskaya.fabtrade_backend.dto.CreateRequestDto;
 import com.sobalevskaya.fabtrade_backend.entities.Request;
+import com.sobalevskaya.fabtrade_backend.entities.Status;
 import com.sobalevskaya.fabtrade_backend.entities.User;
 import com.sobalevskaya.fabtrade_backend.repositories.RequestRepository;
+import com.sobalevskaya.fabtrade_backend.repositories.StatusRepository;
 import com.sobalevskaya.fabtrade_backend.repositories.TenderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,7 @@ public class RequestService {
 
     private final RequestRepository requestRepository;
     private final TenderRepository tenderRepository;
+    private final StatusRepository statusRepository;
 
     public List<Request> getTenderRequests(Long id) {
         return requestRepository.findAllByTenderId(id);
@@ -33,6 +36,11 @@ public class RequestService {
     }
 
     public boolean addRequest(CreateRequestDto createRequestDto, User user, String imageUrl, String documentUrl) {
+        if (tenderRepository.findById(createRequestDto.getTenderId()).orElseThrow().getStatus() !=
+            statusRepository.findById(1L).orElseThrow()) {
+            return false;
+        }
+
         List<Request> requests= requestRepository.findAllByTenderId(createRequestDto.getTenderId());
         for (Request request: requests) {
             if (request.getRequester() == user)

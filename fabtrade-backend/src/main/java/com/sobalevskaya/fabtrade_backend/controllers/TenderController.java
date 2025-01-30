@@ -32,6 +32,11 @@ public class TenderController {
         try {
             String token = authorization.substring(7);
             User user = jwtUtil.getUserFromToken(token);
+
+            if (!user.isVerified()) {
+                return ResponseEntity.badRequest().body("You have no verification");
+            }
+
             tenderService.addTender(createTenderDto, user);
             return ResponseEntity.ok().build();
         } catch (Exception e) {

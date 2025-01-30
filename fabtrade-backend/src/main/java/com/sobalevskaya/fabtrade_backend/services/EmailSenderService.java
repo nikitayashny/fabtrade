@@ -26,4 +26,11 @@ public class EmailSenderService {
 
         sendEmail(toEmail, subject, body);
     }
+
+    public void sendInfoToCreator(String toEmail, String name) {
+        String subject = "Победитель тендера определён";
+        String body = "Зайдите на сайт чтобы подтвердить победителя " + name;
+
+        sendEmail(toEmail, subject, body);
+    }
 }

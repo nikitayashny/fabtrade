@@ -65,12 +65,17 @@ public class RequestController {
         try {
             String token = authorization.substring(7);
             User user = jwtUtil.getUserFromToken(token);
+
+            if (!user.isVerified()) {
+                return ResponseEntity.badRequest().body("You have no verification");
+            }
+
             String imageUrl = imageService.uploadImage(image);
             String documentUrl = documentService.uploadPdf(document);
             if (requestService.addRequest(createRequestDto, user, imageUrl, documentUrl)) {
                 return ResponseEntity.ok().build();
             } else {
-                return ResponseEntity.badRequest().body("You have already sent request");
+                return ResponseEntity.badRequest().body("You have already sent request or tender already have a winner");
             }
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(e.getMessage());
