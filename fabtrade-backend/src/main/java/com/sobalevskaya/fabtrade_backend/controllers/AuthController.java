@@ -1,5 +1,6 @@
 package com.sobalevskaya.fabtrade_backend.controllers;
 
+import com.sobalevskaya.fabtrade_backend.dto.UserDto;
 import com.sobalevskaya.fabtrade_backend.entities.User;
 import com.sobalevskaya.fabtrade_backend.dto.ConfirmDto;
 import com.sobalevskaya.fabtrade_backend.entities.UserCode;
@@ -66,7 +67,12 @@ public class AuthController {
 
         userCodeRepository.delete(userCode);
 
-        return ResponseEntity.ok().body(Map.of("token", token));
+
+        UserDto userDto = new UserDto();
+        userDto.setToken(token);
+        userDto.setUser(newUser);
+
+        return ResponseEntity.ok().body(userDto);
     }
 
     @PostMapping("/login")
@@ -78,7 +84,11 @@ public class AuthController {
 
             String token = jwtUtil.generateToken(user.getEmail());
 
-            return ResponseEntity.ok().body(Map.of("token", token));
+            UserDto userDto = new UserDto();
+            userDto.setToken(token);
+            userDto.setUser(existingUser.orElseThrow());
+
+            return ResponseEntity.ok().body(userDto);
         }
 
         return ResponseEntity.status(401).body("Invalid username or password");
@@ -110,21 +120,35 @@ public class AuthController {
             userRepository.save(newUser);
 
             String jwt = jwtUtil.generateToken(email);
-            return ResponseEntity.ok().body(Map.of("token", jwt));
+
+
+            UserDto userDto = new UserDto();
+            userDto.setToken(jwt);
+            userDto.setUser(newUser);
+
+            return ResponseEntity.ok().body(userDto);
         }
 
         String jwt = jwtUtil.generateToken(email);
-        return ResponseEntity.ok().body(Map.of("token", jwt));
+        UserDto userDto = new UserDto();
+        userDto.setToken(jwt);
+        userDto.setUser(existingUser.orElseThrow());
+
+        return ResponseEntity.ok().body(userDto);
     }
 
     @GetMapping("/check")
     public ResponseEntity<?> auth(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization) {
-        if (authorization == null) {
+        if (authorization == null || authorization.length() < 15) {
             return ResponseEntity.ok().build();
         }
         String jwt = authorization.substring(7);
+        User user = jwtUtil.getUserFromToken(jwt);
+        UserDto userDto = new UserDto();
+        userDto.setToken(jwt);
+        userDto.setUser(user);
 
-        return ResponseEntity.ok().body(Map.of("token", jwt));
+        return ResponseEntity.ok().body(userDto);
     }
 
 }

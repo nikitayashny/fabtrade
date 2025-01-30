@@ -46,7 +46,7 @@ const Auth = observer(() => {
             }
 
             user.setIsAuth(true)
-            user.setEmail(data.email)
+            user.setUser(data)
 
             navigate(HOME_ROUTE);
 
@@ -63,7 +63,7 @@ const Auth = observer(() => {
             const data = await oauth2Login(credential)
 
             user.setIsAuth(true)
-            user.setEmail(data.email)
+            user.setUser(data)
 
             navigate(HOME_ROUTE);
             
@@ -78,7 +78,7 @@ const Auth = observer(() => {
             const data = await confirmRegistration(confirmationCode, password, email);
             
             user.setIsAuth(true)
-            user.setEmail(data.email)
+            user.setUser(data)
 
             navigate(HOME_ROUTE);
             setShowModal(false); 
