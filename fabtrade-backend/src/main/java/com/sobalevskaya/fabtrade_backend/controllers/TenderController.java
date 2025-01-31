@@ -51,7 +51,7 @@ public class TenderController {
             String token = authorization.substring(7);
             User user = jwtUtil.getUserFromToken(token);
 
-            if (tenderService.isUsersTender(id, user)) {
+            if (tenderService.isUsersTender(id, user) && tenderService.checkTenderStatus(id) == 2) {
                 tenderService.confirmTender(id);
             }
 

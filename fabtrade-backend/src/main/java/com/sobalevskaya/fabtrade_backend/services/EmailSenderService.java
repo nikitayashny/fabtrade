@@ -33,4 +33,13 @@ public class EmailSenderService {
 
         sendEmail(toEmail, subject, body);
     }
+
+    public void sendInfoToWinner(String toEmail, String name) {
+        String subject = "Вы выиграли тендер";
+        String body = "Вы выиграли тендер: " + name;
+
+        sendEmail(toEmail, subject, body);
+    }
+
+
 }

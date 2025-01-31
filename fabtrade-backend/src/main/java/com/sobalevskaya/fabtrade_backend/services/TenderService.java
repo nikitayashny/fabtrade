@@ -101,6 +101,15 @@ public class TenderService {
         Tender tender = tenderRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Tender not found"));
         tender.setStatus(statusRepository.findById(3L).orElseThrow());
+        tenderRepository.save(tender);
+
+        emailSenderService.sendInfoToWinner(tender.getWinner().getEmail(), tender.getName());
+    }
+
+    public Long checkTenderStatus(Long id) {
+        Tender tender = tenderRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Tender not found"));
+        return tender.getStatus().getId();
     }
 
 }
