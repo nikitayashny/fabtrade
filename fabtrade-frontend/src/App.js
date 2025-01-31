@@ -5,9 +5,11 @@ import { observer } from "mobx-react-lite";
 import { Context } from "./index";
 import { Spinner } from "react-bootstrap";
 import { check } from "./http/userAPI";
+import { fetchTenders } from "./http/tenderAPI";
 
 const App = observer(() => {
     const {user} = useContext(Context)
+    const {tender} = useContext(Context)
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
@@ -19,6 +21,11 @@ const App = observer(() => {
             }
             
         }).finally(() => setLoading(false))
+        fetchTenders().then(data => {
+            if (data) {
+                tender.setTender(data)
+            }
+        })
     }, [])
 
     if (loading) {

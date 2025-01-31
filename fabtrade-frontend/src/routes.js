@@ -1,16 +1,13 @@
 import Home from "./pages/Home"
 import Auth from "./pages/Auth"
-import { REGISTRATION_ROUTE, LOGIN_ROUTE, HOME_ROUTE} from "./utils/consts"
+import Profile from "./pages/Profile"
+import { REGISTRATION_ROUTE, LOGIN_ROUTE, HOME_ROUTE, PROFILE_ROUTE} from "./utils/consts"
 
 export const authRoutes = [
-    // {
-    //     path: FAVORITE_ROUTE,
-    //     Component: FavoritePage
-    // },
-    // {
-    //     path: PROFILE_ROUTE,
-    //     Component: Profile
-    // }
+    {
+        path: PROFILE_ROUTE,
+        Component: Profile
+    }
 ]
 
 

@@ -3,6 +3,7 @@ import App from './App';
 import { createRoot } from 'react-dom/client';
 import UserStore from './store/UserStore';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import TenderStore from './store/TenderStore';
 
 export const Context = createContext(null)
 
@@ -12,6 +13,7 @@ createRoot(document.getElementById('root')).render(
     <GoogleOAuthProvider clientId={CLIENT_ID}>
         <Context.Provider value={{
             user: new UserStore(),
+            tender: new TenderStore()
         }}>
             <App />
         </Context.Provider>
