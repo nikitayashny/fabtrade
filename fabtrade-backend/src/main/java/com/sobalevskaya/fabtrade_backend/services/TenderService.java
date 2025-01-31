@@ -96,4 +96,11 @@ public class TenderService {
             }
         }
     }
+
+    public void confirmTender(Long id) {
+        Tender tender = tenderRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Tender not found"));
+        tender.setStatus(statusRepository.findById(3L).orElseThrow());
+    }
+
 }

@@ -44,4 +44,21 @@ public class TenderController {
         }
     }
 
+    @PostMapping("/{id}")
+    public ResponseEntity<?> confirmTender(@PathVariable Long id,
+                                           @RequestHeader(HttpHeaders.AUTHORIZATION) String authorization) {
+        try {
+            String token = authorization.substring(7);
+            User user = jwtUtil.getUserFromToken(token);
+
+            if (tenderService.isUsersTender(id, user)) {
+                tenderService.confirmTender(id);
+            }
+
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
+
 }
