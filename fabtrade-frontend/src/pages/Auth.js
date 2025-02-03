@@ -8,9 +8,13 @@ import { Context } from "../index"
 import { useNavigate } from 'react-router-dom'
 import { GoogleLogin } from '@react-oauth/google';
 import Notification from "../components/Notification";
+import { fetchMyRequests } from "../http/requestAPI"
+import { fetchTenders } from "../http/tenderAPI"
 
 const Auth = observer(() => {
     const { user } = useContext(Context)
+    const { request } = useContext(Context)
+    const { tender } = useContext(Context)
     const location = useLocation()
     const navigate = useNavigate()
     const isLogin = location.pathname === LOGIN_ROUTE;
@@ -48,6 +52,17 @@ const Auth = observer(() => {
             user.setIsAuth(true)
             user.setUser(data)
 
+            fetchMyRequests().then(data => {
+                if (data) {
+                    request.setRequest(data)
+                }
+            })
+            fetchTenders().then(data => {
+                if (data) {
+                    tender.setTender(data)
+                }
+            })
+
             navigate(HOME_ROUTE);
 
         } catch (e) {
@@ -65,6 +80,17 @@ const Auth = observer(() => {
             user.setIsAuth(true)
             user.setUser(data)
 
+            fetchMyRequests().then(data => {
+                if (data) {
+                    request.setRequest(data)
+                }
+            })
+            fetchTenders().then(data => {
+                if (data) {
+                    tender.setTender(data)
+                }
+            })
+
             navigate(HOME_ROUTE);
             
         } catch (error) {
@@ -79,6 +105,17 @@ const Auth = observer(() => {
             
             user.setIsAuth(true)
             user.setUser(data)
+
+            fetchMyRequests().then(data => {
+                if (data) {
+                    request.setRequest(data)
+                }
+            })
+            fetchTenders().then(data => {
+                if (data) {
+                    tender.setTender(data)
+                }
+            })
 
             navigate(HOME_ROUTE);
             setShowModal(false); 

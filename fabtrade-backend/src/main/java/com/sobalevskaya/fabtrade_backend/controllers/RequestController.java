@@ -48,10 +48,31 @@ public class RequestController {
             String token = authorization.substring(7);
             User user = jwtUtil.getUserFromToken(token);
 
-            if (!requestService.isUsersRequest(id, user))
+            if (!requestService.isUsersRequest(id, user) && !requestService.isCreator(id, user))
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You have no permission");
 
             return ResponseEntity.ok().body(requestService.getRequest(id));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/winner/{id}")
+    public ResponseEntity<?> getWinnerRequest(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok().body(requestService.getWinnerRequest(id));
+        } catch (Exception e) {
+            return ResponseEntity.ok().build();
+        }
+    }
+
+    @GetMapping("/my")
+    public ResponseEntity<?> getUsersRequests(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization) {
+        try {
+            String token = authorization.substring(7);
+            User user = jwtUtil.getUserFromToken(token);
+
+            return ResponseEntity.ok().body(requestService.getUsersRequests(user.getId()));
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(e.getMessage());
         }

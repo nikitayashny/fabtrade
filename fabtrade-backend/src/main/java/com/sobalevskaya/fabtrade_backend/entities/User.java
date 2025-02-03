@@ -26,6 +26,10 @@ public class User {
 
     private String unp;
     private String name;
+    @Column(columnDefinition = "text")
+    private String description;
+    private String document;
+
 
 }
 

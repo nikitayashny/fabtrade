@@ -28,7 +28,10 @@ public class Tender {
 
     private int count;
     private String name;
+
+    @Column(columnDefinition = "text")
     private String description;
+
     private int term;
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)

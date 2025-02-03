@@ -26,6 +26,15 @@ public class TenderController {
         }
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getOneTender(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok().body(tenderService.getOneTender(id));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
+
     @PostMapping("")
     public ResponseEntity<?> addTender(@RequestBody CreateTenderDto createTenderDto,
                                        @RequestHeader(HttpHeaders.AUTHORIZATION) String authorization) {
@@ -53,6 +62,23 @@ public class TenderController {
 
             if (tenderService.isUsersTender(id, user) && tenderService.checkTenderStatus(id) == 2) {
                 tenderService.confirmTender(id);
+            }
+
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/sign/{id}")
+    public ResponseEntity<?> signTender(@PathVariable Long id,
+                                           @RequestHeader(HttpHeaders.AUTHORIZATION) String authorization) {
+        try {
+            String token = authorization.substring(7);
+            User user = jwtUtil.getUserFromToken(token);
+
+            if (tenderService.isUsersTender(id, user) && tenderService.checkTenderStatus(id) == 3) {
+                tenderService.signTender(id);
             }
 
             return ResponseEntity.ok().build();

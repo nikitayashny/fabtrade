@@ -6,10 +6,12 @@ import { Context } from "./index";
 import { Spinner } from "react-bootstrap";
 import { check } from "./http/userAPI";
 import { fetchTenders } from "./http/tenderAPI";
+import { fetchMyRequests} from "./http/requestAPI";
 
 const App = observer(() => {
     const {user} = useContext(Context)
     const {tender} = useContext(Context)
+    const {request} = useContext(Context)
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
@@ -18,15 +20,25 @@ const App = observer(() => {
             if (data) {
                 user.setIsAuth(true)
                 user.setUser(data)
+
+                fetchMyRequests().then(data => {
+                    if (data) {
+                        request.setRequest(data)
+                    }
+                })
             }
+
+            fetchTenders().then(data => {
+                if (data) {
+                    tender.setTender(data)
+                }
+            })
+
+                      
             
         }).finally(() => setLoading(false))
-        fetchTenders().then(data => {
-            if (data) {
-                tender.setTender(data)
-            }
-        })
-    }, [])
+        
+    }, [tender, user])
 
     if (loading) {
         return <Spinner animation={"grow"} />

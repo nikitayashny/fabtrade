@@ -3,6 +3,7 @@ package com.sobalevskaya.fabtrade_backend.services;
 import com.sobalevskaya.fabtrade_backend.dto.CreateRequestDto;
 import com.sobalevskaya.fabtrade_backend.entities.Request;
 import com.sobalevskaya.fabtrade_backend.entities.Status;
+import com.sobalevskaya.fabtrade_backend.entities.Tender;
 import com.sobalevskaya.fabtrade_backend.entities.User;
 import com.sobalevskaya.fabtrade_backend.repositories.RequestRepository;
 import com.sobalevskaya.fabtrade_backend.repositories.StatusRepository;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @RequiredArgsConstructor
 @Service
@@ -60,4 +62,23 @@ public class RequestService {
         return true;
     }
 
+    public List<Request> getUsersRequests(Long id) {
+        return requestRepository.findAllByRequesterId(id);
+    }
+
+    public boolean isCreator(Long id, User user) {
+        Request request = requestRepository.findById(id).orElseThrow();
+        return request.getTender().getCreator() == user;
+    }
+
+    public Request getWinnerRequest(Long id) {
+        Tender tender = tenderRepository.findById(id).orElseThrow();
+        List<Request> requests = requestRepository.findAllByTenderId(id);
+        for (Request request: requests) {
+            if (Objects.equals(tender.getWinner().getId(), request.getRequester().getId())) {
+                return request;
+            }
+        }
+        return null;
+    }
 }

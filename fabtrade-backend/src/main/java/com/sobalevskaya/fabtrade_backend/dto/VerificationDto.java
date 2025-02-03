@@ -6,4 +6,5 @@ import lombok.Data;
 public class VerificationDto {
     private String unp;
     private String name;
+    private String description;
 }

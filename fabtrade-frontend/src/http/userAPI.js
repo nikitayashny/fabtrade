@@ -11,6 +11,11 @@ export const confirmRegistration = async (confirmationCode, password, email) => 
     return data.user;
 };
 
+export const verify = async (formData) => {
+    const {data} = await $authHost.post('/api/users/verify', formData)
+    return data
+}
+
 export const login = async (email, password) => {
     const {data} = await $host.post('api/auth/login', {email, password})
     localStorage.setItem('token', data.token)

@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { observer } from "mobx-react-lite";
-import { useContext } from "react";
-import { Context } from "..";
-import { Row, Container, Col } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import Header from "../components/Header";
 import lightDesk from '../img/LightDesk.png';
 import logo from '../img/FabTrade.svg';
 import lineStart from '../img/lineStart.svg'
 import { Button } from "antd";
+import { useNavigate } from "react-router-dom";
+import { TENDERS_ROUTE } from "../utils/consts";
 
 const Home = observer(() => {
 
-    const { user } = useContext(Context)
+    const navigate = useNavigate()
 
     return (
         <div style={{ position: 'relative', minHeight: '100vh', backgroundColor: '#f8f9fa' }}>
@@ -33,7 +33,9 @@ const Home = observer(() => {
                                 <div style={{fontSize: "16px", fontWeight: "500"}} className="ms-3">
                                     промышленности в одном месте  
                                 </div>
-                                <Button className="ms-3 " style={{top: "-10px",  background: 'linear-gradient(to right, #44BCFF, #3160D0)', width: "135px", height: "43px", borderRadius: "7px", color: "white", fontSize: "16px", fontWeight: "600"}}>
+                                <Button className="ms-3 " 
+                                    onClick={() => navigate(TENDERS_ROUTE)}
+                                    style={{top: "-10px",  background: 'linear-gradient(to right, #44BCFF, #3160D0)', width: "135px", height: "43px", borderRadius: "7px", color: "white", fontSize: "16px", fontWeight: "600"}}>
                                     Начать!
                                 </Button>
                             </div>            

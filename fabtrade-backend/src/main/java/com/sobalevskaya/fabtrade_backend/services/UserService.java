@@ -25,9 +25,11 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    public void verifyUser(User user, VerificationDto verificationDto) {
+    public void verifyUser(User user, VerificationDto verificationDto, String documentUrl) {
         user.setUnp(verificationDto.getUnp());
         user.setName(verificationDto.getName());
+        user.setDescription(verificationDto.getDescription());
+        user.setDocument(documentUrl);
         user.setVerified(true);
         userRepository.save(user);
     }

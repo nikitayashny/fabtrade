@@ -1,5 +1,6 @@
 package com.sobalevskaya.fabtrade_backend.services;
 
+import com.sobalevskaya.fabtrade_backend.entities.Tender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -34,9 +35,12 @@ public class EmailSenderService {
         sendEmail(toEmail, subject, body);
     }
 
-    public void sendInfoToWinner(String toEmail, String name) {
-        String subject = "Вы выиграли тендер";
-        String body = "Вы выиграли тендер: " + name;
+    public void sendInfoToWinner(String toEmail, Tender tender) {
+        String subject = "Вы выиграли в тендере!";
+        String body = "Добрый день!\n" +
+                "Ваша заявка выиграла в тендере №" + tender.getId() + ". Вы можете ознакомиться с итогами тендера и итоговым протоколом в личном кабинете на площадке FabTrade.\n" +
+                "http://localhost:3000/tender/" + tender.getId() + "\n" +
+                "С уважением, команда FabTrade!";
 
         sendEmail(toEmail, subject, body);
     }
