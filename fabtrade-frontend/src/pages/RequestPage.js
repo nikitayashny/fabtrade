@@ -1,18 +1,16 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Container, Form, Card, Row, Col} from "react-bootstrap";
+import { Container, Card, Row, Col} from "react-bootstrap";
 import { useNavigate, useParams } from 'react-router-dom';
 import { observer } from "mobx-react-lite";
 import { Context } from "..";
 import Header from "../components/Header";
-import { confirmTender, fetchTender, fetchTenders } from "../http/tenderAPI";
-import { fetchRequests, addRequest, fetchMyRequests, fetchRequest } from "../http/requestAPI";
-import RequestCard from "../components/RequestCard"
+import { confirmTender, fetchTenders } from "../http/tenderAPI";
+import { fetchRequest } from "../http/requestAPI";
 import { HOME_ROUTE, TENDER_ROUTE } from "../utils/consts";
 import { Button } from "antd";
 
 const RequestPage = observer(() => {
     const { id } = useParams();
-    const {request} = useContext(Context)
     const {user} = useContext(Context)
     const {tender} = useContext(Context)
     const [req, setReq] = useState()

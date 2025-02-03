@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { Context } from "../index";
 import Navbar from 'react-bootstrap/Navbar'
 import { NavLink } from "react-router-dom";
-import { LOGIN_ROUTE, HOME_ROUTE, REGISTRATION_ROUTE, PROFILE_ROUTE, TENDERS_ROUTE } from "../utils/consts";
+import { LOGIN_ROUTE, HOME_ROUTE, REGISTRATION_ROUTE, PROFILE_ROUTE, TENDERS_ROUTE, USERS_ROUTE } from "../utils/consts";
 import { Button } from "antd";
 import { observer } from "mobx-react-lite";
 import logo from '../img/FabTrade.svg';
@@ -81,7 +81,7 @@ const Header = observer( () => {
                 </NavLink>
 
                 <NavLink
-                    to={HOME_ROUTE}
+                    to={USERS_ROUTE}
                     style={{
                         marginBottom:"-9px",
                         color: "black",

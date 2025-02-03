@@ -1,13 +1,10 @@
-import { Container, Form, Modal } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { observer } from "mobx-react-lite";
 import {Button} from "antd";
 import { Context } from "../index";
 import React, { useContext, useState } from "react";
 import Header from "../components/Header";
 import TenderCard from "../components/TenderCard";
-import { check, verify  } from "../http/userAPI";
-import { addTender, fetchTenders } from "../http/tenderAPI";
-import TenderPage from "./TenderPage";
 
 const TendersPage = observer(() => {
     const { user } = useContext(Context) 
@@ -24,7 +21,7 @@ const TendersPage = observer(() => {
             <Container>
                 <Header />
                 <hr />
-                <h4 className="mb-4">Тендеры</h4>
+                <h4 className="mb-4 mt-5">Тендеры</h4>
                 <div style={{
                     color: "#223567",
                     fontSize: "16px",

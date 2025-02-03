@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/users")
@@ -30,6 +32,16 @@ public class UserController {
             String documentUrl = documentService.uploadPdf(document);
             userService.verifyUser(user, verificationDto, documentUrl);
             return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("")
+    public ResponseEntity<?> getUsers() {
+        try {
+            List<User> users = userService.getUsers();
+            return ResponseEntity.ok(users);
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(e.getMessage());
         }

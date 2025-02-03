@@ -42,3 +42,8 @@ export const check = async () => {
         console.log('неавторизован')
     } 
 }
+
+export const fetchUsers = async () => {
+    const {data} = await $host.get('/api/users')
+    return data
+}
