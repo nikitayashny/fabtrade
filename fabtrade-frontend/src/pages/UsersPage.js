@@ -3,6 +3,7 @@ import { observer } from "mobx-react-lite";
 import React, {  useEffect, useState } from "react";
 import Header from "../components/Header";
 import { fetchUsers} from "../http/userAPI";
+import UserCard from "../components/UserCard";
 
 const UsersPage = observer(() => {
 
@@ -28,7 +29,7 @@ const UsersPage = observer(() => {
                     Итого участников: {users && users.length}
                 </div>
                 {users && users.map(user => (
-                    <>{user.id}</>
+                    <UserCard userItem={user}/>
                 ))}
             </Container>
         </div>

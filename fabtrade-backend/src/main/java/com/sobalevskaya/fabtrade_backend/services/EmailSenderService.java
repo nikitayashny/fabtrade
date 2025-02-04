@@ -30,7 +30,9 @@ public class EmailSenderService {
 
     public void sendInfoToCreator(String toEmail, String name) {
         String subject = "Победитель тендера определён";
-        String body = "Зайдите на сайт чтобы подтвердить победителя " + name;
+        String body = "Добрый день!\n" +
+                "Зайдите на сайт чтобы подтвердить победителя " + name + "\n"+
+                "http://localhost:3000/";
 
         sendEmail(toEmail, subject, body);
     }

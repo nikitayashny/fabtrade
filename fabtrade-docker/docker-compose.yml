@@ -13,9 +13,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   backend:
-    build:
-      context: ./fabtrade-backend
-      dockerfile: Dockerfile
+    image: nikitayashny/fabtrade-backend
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/fabtrade
       SPRING_DATASOURCE_USERNAME: postgres
@@ -30,9 +28,7 @@ services:
       - minio
 
   frontend:
-    build:
-      context: ./fabtrade-frontend
-      dockerfile: Dockerfile
+    image: nikitayashny/fabtrade-frontend
     ports:
       - "3000:80"
     depends_on:
@@ -43,10 +39,9 @@ services:
     environment:
       MINIO_ACCESS_KEY: minioadmin
       MINIO_SECRET_KEY: minioadmin
-      MINIO_URL: http://minio:9000
     ports:
-      - "9000:9000"  
-      - "9001:9001" 
+      - "9000:9000"
+      - "9001:9001"
     volumes:
       - minio_data:/data
     command: server /data --console-address ":9001"
